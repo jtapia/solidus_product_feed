@@ -35,7 +35,7 @@ RSpec.describe Spree::FeedProduct do
     subject { feed_product.image_link }
     context "when the product has images" do
       before { Spree::Image.create! viewable: product.master, attachment_file_name: 'hams.png' }
-      it { is_expected.to eq '/spree/products/1/large/hams.png' }
+      it { is_expected.to eq '/spree/products/1/original/hams.png' }
     end
 
     context "when the product doesn't have images" do
