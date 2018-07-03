@@ -22,6 +22,10 @@ module Spree
     def category
     end
 
+    def brand
+      product.respond_to?(:brand) && product.brand.to_s
+    end
+
     # Must be "new", "refurbished", or "used".
     def condition
       "new"
