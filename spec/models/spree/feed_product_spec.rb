@@ -52,4 +52,36 @@ RSpec.describe Spree::FeedProduct do
     subject { feed_product.title }
     it { is_expected.to eq "2 Hams 20 Dollars" }
   end
+
+  describe "#availability" do
+    subject { feed_product.availability }
+    context "when product has in stock variants" do
+      before do
+        product.master.stock_items.first.set_count_on_hand(1)
+      end
+
+      it { is_expected.to eq 'in stock' }
+    end
+
+    context "when product is out of stock but backorderable" do
+      before do
+        product.master.stock_items.each { |si| si.set_count_on_hand(0) }
+      end
+
+      it { is_expected.to eq 'available to order' }
+    end
+
+    context "when product is out of stock and not backorderable" do
+      before do
+        product.master.stock_items.each { |si|
+          si.set_count_on_hand(0)
+        }
+        product.master.stock_items.each { |si|
+          si.update_attributes(backorderable: false)
+        }
+      end
+
+      it { is_expected.to eq 'out of stock' }
+    end
+  end
 end

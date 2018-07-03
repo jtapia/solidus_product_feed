@@ -31,6 +31,20 @@ module Spree
       Spree::Money.new(product.price)
     end
 
+    # Describe the product's availability
+    # Values taken from Facebook's feed docs
+    # still to do: respect available_on dates on products
+    def availability
+      @availability ||= case
+                        when product.stock_items.any?(&:in_stock?)
+                          'in stock'
+                        when product.stock_items.any?(&:available?)
+                          'available to order'
+                        else
+                          'out of stock'
+                        end
+    end
+
     def image_link
       return unless product.images.any?
       product.images.first.attachment.url(:large)
