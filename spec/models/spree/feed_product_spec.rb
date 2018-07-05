@@ -34,8 +34,23 @@ RSpec.describe Spree::FeedProduct do
   describe "#image_link" do
     subject { feed_product.image_link }
     context "when the product has images" do
-      before { Spree::Image.create! viewable: product.master, attachment_file_name: 'hams.png' }
+      let!(:image_1) {
+        Spree::Image.create! viewable: product.master, attachment_file_name: 'hams.png'
+      }
       it { is_expected.to eq '/spree/products/1/original/hams.png' }
+      it { is_expected.to eq image_1.attachment.url(:original) }
+
+      context "and the display image isn't the first one added" do
+        let!(:image_2) {
+          Spree::Image.create! viewable: product.master, attachment_file_name: 'sausages.png'
+        }
+        before do
+          product.reload.images.last.move_higher
+        end
+
+        it { is_expected.to eq image_2.attachment.url(:original) }
+
+      end
     end
 
     context "when the product doesn't have images" do

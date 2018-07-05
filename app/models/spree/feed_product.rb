@@ -51,7 +51,7 @@ module Spree
 
     def image_link
       return unless product.images.any?
-      product.images.first.attachment.url(:original)
+      product.display_image.attachment.url(:original)
     end
   end
 end
