@@ -1,12 +1,12 @@
 Spree::ProductsController.prepend(Module.new do
   class << self
     def prepended(klass)
-      klass.respond_to :rss, only: :index
+      klass.respond_to :rss, :xml, only: :index
     end
   end
 
   def index
-    load_feed_products if request.format.rss?
+    load_feed_products if request.format.rss? || request.format.xml?
     super
   end
 
