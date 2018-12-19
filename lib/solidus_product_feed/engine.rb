@@ -1,5 +1,7 @@
 module SolidusProductFeed
   class Engine < Rails::Engine
+    require 'spree/core'
+    isolate_namespace Spree
     engine_name 'solidus_product_feed'
 
     config.autoload_paths += %W(#{config.root}/lib)
@@ -7,6 +9,10 @@ module SolidusProductFeed
     # use rspec for tests
     config.generators do |g|
       g.test_framework :rspec
+    end
+
+    initializer 'solidus_product_feed.environment', before: :load_config_initializers do
+      SolidusProductFeed::Config = SolidusProductFeed::Configuration.new
     end
 
     def self.activate
