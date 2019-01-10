@@ -1,7 +1,7 @@
 module Spree
   module Admin
     class ProductFeedsController < ResourceController
-      before_action :load_data, only: [:index, :edit, :new]
+      before_action :load_data, only: [:index, :edit, :new, :create]
 
       def index
         if model_class.default.present?
