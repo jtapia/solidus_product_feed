@@ -4,11 +4,26 @@ en:
       tab:
         product_feeds: Product Feed
         product_catalogs: Product Catalogs
+        product_feed_images: Product Feed Images
+      tab_description:
+        product_feed_images: Manage Product Feed Images
+        product_catalog_images: Manage Product Images
+      product_feed_image:
+        success_uploaded: The image was updated successfully
+        error_uploaded: Something went wrong, please try again
     new_feed: New Feed
     new_product_feed: New Product Feed
     new_product_catalog: New Product Catalog
+    new_product_feed_image: New Product Feed Image
     edit_product_feed: Edit Product Feed
     edit_product_catalog: Edit Product Catalog
+    edit_product_catalog_image: Edit Product Catalog Image
+    edit_product_feed_image: Edit Product Feed Image
     select_all: Select All
     total_of_products: Total of Products
     product_link: Click here to go to product
+
+    product_feed:
+      affine_clamp: Affine Clamp
+      color_fill: Color Fill
+
