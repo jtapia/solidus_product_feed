@@ -1,0 +1,22 @@
+<fieldset class='form-group no-border-top no-border-bottom' data-hook='edit_product_catalog_image'>
+  <legend align='center'><%= @image.attachment_file_name %></legend>
+
+  <div class='col-12' data-hook='admin_product_catalog_image_form_fields'>
+    <div class='row'>
+      <div class='col-2 field align-center' data-hook='thumbnail'>
+        <%= label_tag t("spree.thumbnail") %><br>
+        <%= link_to image_tag(@image.attachment.url(:small)), @image.attachment.url(:product) %>
+      </div>
+
+      <div class='col-3 field' data-hook='alt_text'>
+        <%= label_tag t("spree.alt_text") %><br>
+        <%= text_area_tag :alt, @image.alt, rows: 6, class: "fullwidth", name: "product_catalog_image[image][alt]" %>
+      </div>
+
+      <div class='col-3 field align-center' data-hook='product_image'>
+        <%= label_tag t("spree.filename") %><br>
+        <%= file_field_tag :attachment, name: "product_catalog_image[image][attachment]", id: "product_catalog_image_attachment" %>
+      </div>
+    </div>
+  </div>
+</fieldset>

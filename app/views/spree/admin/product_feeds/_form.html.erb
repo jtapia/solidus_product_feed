@@ -1,11 +1,9 @@
-<fieldset class='form-group no-border-bottom no-border-top' data-hook="#{action}">
-  <legend align="center"><%= t("spree.#{action}") %></legend>
-
+<fieldset class='form-group no-border-bottom no-border-top' data-hook='edit_product_feed'>
   <div class='row'>
     <div class='col-4' data-hook='admin_product_feed_name'>
       <%= f.field_container :name do %>
-        <%= f.label :name, class: 'required' %>
-        <%= f.text_field :name, class: 'fullwidth', required: true %>
+        <%= f.label :name, class: "required" %>
+        <%= f.text_field :name, class: "fullwidth", required: true %>
       <% end %>
     </div>
 
@@ -13,24 +11,70 @@
       <%= f.field_container :product_catalog_id do %>
         <%= f.label :product_catalog_id %><br />
         <%= f.select :product_catalog_id,
-          options_from_collection_for_select(@product_catalogs, :id, :name, @object.product_catalog_id),
-          { prompt: '' },
-          class: 'fullwidth select2',
-          required: true if @product_catalogs.any? %>
+            options_from_collection_for_select(@product_catalogs, :id, :name, @object.product_catalog_id),
+            { prompt: '' },
+            class: "fullwidth select2",
+            required: true if @product_catalogs.any? %>
       <% end %>
 
       <span>
-        <%= link_to t('spree.new_product_catalog'), new_admin_product_catalog_path %>
+        <%= link_to t("spree.new_product_catalog"), new_admin_product_catalog_path %>
       </span>
     </div>
 
     <div class='col-4' data-hook='admin_product_feed_url'>
-      <%= field_container :url do %>
-        <%= label_tag :url %><br />
-        <%= input_field_tag :url, "#{current_store.url}/products.rss", class: 'fullwidth', readonly: true %>
+      <%= f.field_container :url do %>
+        <%= f.label :url %><br />
+        <%= text_field_tag :url, "#{current_store.url}/products.rss", class: 'fullwidth', readonly: true, disabled: true %>
       <% end %>
     </div>
   </div>
 </fieldset>
 
+<% @product_feed.persisted? %>
+  <fieldset class='form-group no-border-bottom no-border-top' data-hook='edit_product_feed_images'>
+    <div class='row'>
+      <div class='col-4' data-hook='image_color_fill'>
+        <%= f.field_container :options do %>
+          <%= f.label :color_fill, "#{t('spree.product_feed.color_fill')}:" %>
+          <%= check_box_tag "product_feed[options][color_fill]", @product_feed.color_fill, @product_feed.color_fill? %>
+          <%= hidden_field_tag "product_feed[options][color_fill]", @product_feed.color_fill, id: "product_feed_options_color_fill_value" %>
+          <%= select_tag 'product_feed[options][color]',
+              options_for_select(SolidusProductFeed::Config.colors, @product_feed.color),
+              prompt: '',
+              class: "fullwidth select2 #{@product_feed.color.blank? ? 'hidden' : '' }",
+              required: true %>
+        <% end %>
+      </div>
+
+      <div class='col-4' data-hook='image_affine_clamp'>
+        <%= f.field_container :options do %>
+          <%= f.label :affine_clamp, "#{t('spree.product_feed.affine_clamp')}:" %>
+          <%= check_box_tag "product_feed[options][affine_clamp]", @product_feed.affine_clamp, @product_feed.affine_clamp? %>
+          <%= hidden_field_tag "product_feed[options][affine_clamp]", @product_feed.affine_clamp, id: "product_feed_options_affine_clamp_value" %>
+        <% end %>
+      </div>
+
+      <div class='col-4 field align-center' data-hook='overlay_image'>
+        <%= label_tag t("spree.filename") %><br>
+        <%= file_field_tag :attachment, name: "product_feed_image[image][attachment]", id: "product_feed_attachment" %>
+
+        <div class='overlay_images'>
+          <% @product_feed.images.each do |image| %>
+            <%= link_to "#", id: image.id, class: "image_selection" do %>
+              <div class='product_feed_image'>
+                <i class='fa fa-check select_image <%= @product_feed.overlay_image_id == image.id ? "active" : "hidden" %>'></i>
+                <i class='fa fa-close remove_image hidden' id='<%= image.id %>'></i>
+                <%= image_tag(image.attachment.url(:small)) %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+<% end %>
+
+<%= f.hidden_field :id, value: @product_feed.id %>
+<%= f.hidden_field :overlay_image_id, value: @product_feed.overlay_image_id %>
 <%= f.hidden_field :store_id, value: current_store.id %>

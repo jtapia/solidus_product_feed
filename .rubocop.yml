@@ -1,9 +1,9 @@
 AllCops:
-   Exclude:
-     - spec/dummy/**/*
-     - script/*
-     - Guardfile
-     - vendor/**/*
+  Exclude:
+    - spec/dummy/**/*
+    - script/*
+    - Guardfile
+    - vendor/**/*
 
 Style/MutableConstant:
   Enabled: false
@@ -121,6 +121,12 @@ Lint/AmbiguousRegexpLiteral:
 Lint/AssignmentInCondition:
   Enabled: false
   StyleGuide: http://relaxed.ruby.style/#lintassignmentincondition
+
+Lint/UselessAssignment:
+  Enabled: false
+
+Lint/UnusedMethodArgument:
+  Enabled: false
 
 Metrics/AbcSize:
   Enabled: false

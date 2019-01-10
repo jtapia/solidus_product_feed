@@ -1,7 +1,7 @@
 module Spree
   module Admin
     class ProductFeedsController < ResourceController
-      before_action :load_data, only: [:index, :edit, :new]
+      before_action :load_data, only: [:index, :edit, :new, :create]
 
       def index
         if model_class.default.present?
@@ -22,8 +22,8 @@ module Spree
       private
 
       def load_data
-        @product_catalogs = Spree::ProductCatalog.where(store: current_store).
-                            order(:name)
+        @product_catalogs = Spree::ProductCatalog.by_store(current_store).order(:name)
+        @product_feed_image = Spree::ProductFeedImage.new
       end
 
       def location_after_save

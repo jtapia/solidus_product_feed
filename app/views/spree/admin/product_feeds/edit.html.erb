@@ -1,14 +1,12 @@
-<% admin_layout 'full-width' %>
+<% admin_layout "full-width" %>
 
-<% admin_breadcrumb(link_to plural_resource_name(Spree::ProductFeed), spree.admin_product_feeds_path(@feed)) %>
-<% admin_breadcrumb("#{t('spree.actions.edit')} #{Spree::ProductFeed.model_name.human}") %>
+<% admin_breadcrumb(t("spree.settings")) %>
+<% admin_breadcrumb(link_to plural_resource_name(Spree::ProductFeed), admin_product_feeds_path(@product_feed)) %>
+<% admin_breadcrumb(@product_feed.name) %>
 
-<% content_for :page_actions do %>
-<% end %>
+<%= render partial: "spree/shared/error_messages", locals: { target: @product_feed } %>
 
-<%= render partial: 'spree/shared/error_messages', locals: { target: @product_feed } %>
-
-<%= form_for [:admin, @product_feed], method: :put do |f| %>
-  <%= render partial: 'form', locals: { f: f, action: 'edit_product_feed' } %>
-  <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+<%= form_for [:admin, @product_feed], method: :put, html: { class: "edit_product_feed product-feed-form-container" } do |f| %>
+  <%= render partial: "form", locals: { f: f } %>
+  <%= render partial: "spree/admin/shared/edit_resource_links" %>
 <% end %>

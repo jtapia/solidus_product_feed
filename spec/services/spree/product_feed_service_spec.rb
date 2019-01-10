@@ -36,10 +36,16 @@ describe Spree::ProductFeedService do
            description: 'As seen on TV!',
            option_types: [option_type])
   end
+  let!(:product_image) do
+    product.master.images.create!(attachment_file_name: 'hams.png')
+  end
   let(:variant) do
     create(:variant,
            product: product,
            option_values: [option_value])
+  end
+  let!(:variant_image) do
+    variant.images.create!(attachment_file_name: 'hams.png')
   end
   let(:service) { described_class.new(variant) }
 
@@ -106,16 +112,25 @@ describe Spree::ProductFeedService do
   describe '#image_link' do
     subject { service.image_link }
 
-    context 'when the product has images' do
-      before do
-        Spree::Image.create!(viewable: product.master,
-                             attachment_file_name: 'hams.png')
-      end
-
-      it { is_expected.to eq('http://example.com/spree/products/1/large/hams.png') }
+    context 'when the variant has images' do
+      it { is_expected.to eq('http://example.com/spree/products/2/product_feed/hams.png') }
     end
 
-    context "when the product doesn't have images" do
+    context 'when the product has images' do
+      before do
+        allow_any_instance_of(Spree::Variant).to receive(:images).and_return([])
+        allow_any_instance_of(Spree::Product).to receive(:images).and_return([product_image])
+      end
+
+      it { is_expected.to eq('http://example.com/spree/products/1/product_feed/hams.png') }
+    end
+
+    context "when the product an variant don't have images" do
+      before do
+        allow_any_instance_of(Spree::Product).to receive(:images).and_return([])
+        allow_any_instance_of(Spree::Variant).to receive(:images).and_return([])
+      end
+
       it { is_expected.to be_nil }
     end
   end

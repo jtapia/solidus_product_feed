@@ -3,10 +3,13 @@ module Spree
     serialize :item_ids, Array
 
     belongs_to :store
+    has_many :images, -> { order(:position) }, as: :viewable, dependent: :destroy, class_name: 'Spree::Image'
 
     after_create :populate_default_items
 
     validates :name, presence: true, uniqueness: true
+
+    scope :by_store, ->(store){ where(store: store) }
 
     def selected?(variant_id)
       item_ids.include?(variant_id.to_s)

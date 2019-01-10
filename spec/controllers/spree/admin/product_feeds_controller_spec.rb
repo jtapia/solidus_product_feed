@@ -23,7 +23,6 @@ describe Spree::Admin::ProductFeedsController do
       {
         product_feed: {
           name: 'Test',
-          feed_type: 'google_feed',
           product_catalog_id: product_catalog.id,
           store_id: store.id
         }

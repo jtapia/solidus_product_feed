@@ -51,7 +51,7 @@ module Spree
     def brand
       property = Spree::Property.find_by(name: 'Brand')
       product.product_properties.find_by(property_id: property.try(:id)).
-        try(:value).to_s || store.name
+        try(:value) || store.name
     end
 
     def material
@@ -82,6 +82,10 @@ module Spree
       'new'
     end
 
+    def item_group_id
+      product.slug
+    end
+
     def price
       Spree::Money.new(product.try(:price))
     end
@@ -91,8 +95,8 @@ module Spree
     end
 
     def image_link
-      return unless product.try(:images).any?
-      "#{store.url}#{product.try(:images).first.try(:attachment).url(:large)}"
+      return "#{store.url}#{variant.try(:images).first.try(:attachment).try(:url, :product_feed)}" if variant.images.any?
+      return "#{store.url}#{product.try(:images).first.try(:attachment).try(:url, :product_feed)}" if product.images.any?
     end
   end
 end
