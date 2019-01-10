@@ -3,6 +3,7 @@ module Spree
     serialize :item_ids, Array
 
     belongs_to :store
+    has_many :images, -> { order(:position) }, as: :viewable, dependent: :destroy, class_name: 'Spree::Image'
 
     after_create :populate_default_items
 
