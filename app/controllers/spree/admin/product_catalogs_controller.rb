@@ -1,9 +1,10 @@
 module Spree
   module Admin
     class ProductCatalogsController < ResourceController
-      before_action :load_data, except: :index
+      before_action :load_data, except: [:index]
+      before_action :load_variants, only: [:edit]
 
-      helper Spree::Api::ApiHelpers
+      include Spree::Admin::ProductCatalogsHelper
 
       private
 
@@ -17,8 +18,11 @@ module Spree
       end
 
       def load_data
-        @variants = Spree::Product.all.map(&:variants_including_master).flatten
         @product_catalogs = Spree::ProductCatalog.where(store: current_store).order(:name)
+      end
+
+      def load_variants
+        @variants ||= Spree::Variant.all
       end
 
       def location_after_save

@@ -22,8 +22,8 @@ module Spree
       private
 
       def load_data
-        @product_catalogs = Spree::ProductCatalog.where(store: current_store).
-                            order(:name)
+        @product_catalogs = Spree::ProductCatalog.where(store: current_store).order(:name)
+        @product_feed_image = Spree::ProductFeedImage.new
       end
 
       def location_after_save
