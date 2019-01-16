@@ -1,0 +1,11 @@
+<% admin_layout "full-width" %>
+
+<% admin_breadcrumb(link_to plural_resource_name(Spree::Variant), spree.admin_product_catalogs_path(@product_catalog)) %>
+<% admin_breadcrumb(t("spree.edit_product_catalog_image")) %>
+
+<%= render partial: "spree/shared/error_messages", locals: { target: @product_catalog } %>
+
+<%= form_for [:admin, @image], url: admin_product_catalog_variant_image_path(@product_catalog, @variant, @image),  html: { multipart: true, class: "edit_product_catalog_image product-catalog-image-form-container" } do |f| %>
+  <%= render partial: "form", locals: { f: f } %>
+  <%= render partial: "spree/admin/shared/edit_resource_links" %>
+<% end %>
