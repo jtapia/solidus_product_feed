@@ -1,0 +1,10 @@
+<% admin_breadcrumb(link_to plural_resource_name(Spree::Product), spree.admin_product_catalogs_path(@product_catalog)) %>
+<% admin_breadcrumb(t('spree.edit_product_feed_image')) %>
+
+<% content_for :page_actions do %>
+<% end %>
+
+<%= form_for [:admin, @image], url: admin_product_catalog_product_image_path(@product_catalog, @product, @image),  html: { multipart: true } do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+<% end %>
