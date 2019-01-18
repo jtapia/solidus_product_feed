@@ -11,6 +11,7 @@ require 'solidus_product_feed/factories'
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.include Spree::TestingSupport::UrlHelpers
+  config.include Spree::Api::TestingSupport::Helpers
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = false
   config.fail_fast = ENV['FAIL_FAST'] || false

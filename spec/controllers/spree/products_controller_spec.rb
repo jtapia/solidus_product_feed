@@ -10,7 +10,6 @@ describe Spree::ProductsController do
   let!(:product_feed) do
     create(:product_feed,
            name: 'Test',
-           feed_type: 'google_feed',
            product_catalog: product_catalog,
            store: store)
   end
