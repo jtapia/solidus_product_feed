@@ -25,6 +25,7 @@ module Spree
                 xml.tag! 'g:availability', item.availability
                 xml.tag! 'g:price', item.price.money.format(symbol: false, with_currency: true)
                 xml.tag! 'g:mpn', item.mpn
+                xml.tag! 'g:item_group_id', item.item_group_id
                 xml.tag! 'g:google_product_category', item.google_product_category
                 xml.tag! 'g:custom_label_0', "Color: #{item.color}"
                 xml.tag! 'g:custom_label_1', "Gender: #{item.gender}"

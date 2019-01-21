@@ -51,7 +51,7 @@ module Spree
     def brand
       property = Spree::Property.find_by(name: 'Brand')
       product.product_properties.find_by(property_id: property.try(:id)).
-        try(:value).to_s || store.name
+        try(:value) || store.name
     end
 
     def material
@@ -80,6 +80,10 @@ module Spree
     # Must be "new", "refurbished", or "used".
     def condition
       'new'
+    end
+
+    def item_group_id
+      product.slug
     end
 
     def price

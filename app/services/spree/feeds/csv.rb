@@ -59,7 +59,7 @@ module Spree
           nil, # age_group
           item.color,
           item.gender, # gender
-          nil, # item_group_id
+          item.item_group_id, # item_group_id
           item.google_product_category, # google_product_category
           item.material, # material
           nil, # pattern
