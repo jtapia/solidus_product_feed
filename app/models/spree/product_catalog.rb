@@ -9,6 +9,8 @@ module Spree
 
     validates :name, presence: true, uniqueness: true
 
+    scope :by_store, ->(store){ where(store: store) }
+
     def selected?(variant_id)
       item_ids.include?(variant_id.to_s)
     end
