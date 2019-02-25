@@ -26,6 +26,7 @@ Spree::Image.class_eval do
                                    color: product_feed.try(:color) || 'white',
                                    image_id: product_feed.try(:id),
                                    processors: [:color_fill] } if product_feed.try(:color_fill?)
+
     SolidusProductFeed::Config.formats.merge(feed_styles)
   end
 
