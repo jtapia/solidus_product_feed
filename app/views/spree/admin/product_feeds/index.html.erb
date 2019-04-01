@@ -1,0 +1,77 @@
+<% admin_breadcrumb(t('spree.settings')) %>
+<% admin_breadcrumb(plural_resource_name(Spree::ProductFeed)) %>
+
+<% content_for :page_actions do %>
+  <% if can?(:create, Spree::ProductFeed) %>
+    <li>
+      <%= link_to t('spree.new_product_feed'), new_object_url,
+        id: 'admin_new_product_feed_link', class: 'btn btn-primary' %>
+    </li>
+  <% end %>
+<% end %>
+
+<% content_for :header_actions do %>
+  <li>
+    <%= link_to(new_object_url,
+                id: 'admin_new_product_feed_link',
+                class: 'btn btn-primary btn-rounded') do %>
+      <i class='icon icon-plus-white mr-2 align-middle'></i>
+      <%= I18n.t('spree.admin.product_feed.new') %>
+    <% end %>
+  </li>
+<% end %>
+
+<%= paginate @product_feeds, theme: 'solidus_admin' %>
+
+<% if @product_feeds.any? %>
+  <table class='index' id='listing_product_feeds' data-hook>
+    <colgroup>
+      <col style='width: 20%' />
+      <col style='width: 15%' />
+      <col style='width: 15%' />
+      <col style='width: 20%' />
+    </colgroup>
+
+    <thead>
+      <tr data-hook='product_feeds_header'>
+        <th>
+          <%= sort_link @search,:name,
+          Spree::ProductFeed.human_attribute_name(:name),
+          title: 'product_feeds_order_by_name_title' %>
+        </th>
+        <th><%= t('spree.product_catalog') %></th>
+        <th><%= t('spree.store') %></th>
+        <th><%= Spree::ProductFeed.human_attribute_name(:created_at) %></th>
+        <th class='actions'></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @product_feeds.each do |product_feed| %>
+        <tr id='<%= spree_dom_id product_feed %>'
+          data-hook='product_feeds_row'>
+          <td><%= product_feed&.name %></td>
+          <td><%= product_feed&.product_catalog&.name %></td>
+          <td><%= product_feed&.store.name %></td>
+          <td><%= pretty_time(product_feed.created_at) %></td>
+          <td class='actions'>
+            <% if can?(:update, product_feed) %>
+              <%= link_to_edit product_feed, no_text: true %>
+            <% end %>
+            <% if can?(:destroy, product_feed) %>
+              <%= link_to_delete product_feed, no_text: true %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class='no-objects-found'>
+    <%= render 'spree/admin/shared/no_objects_found',
+                 resource: Spree::ProductFeed,
+                 new_resource_url: new_object_url %>
+  </div>
+<% end %>
+
+<%= paginate @product_feeds, theme: 'solidus_admin' %>

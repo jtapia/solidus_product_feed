@@ -11,10 +11,12 @@ describe Spree::Admin::ProductFeedsController do
   stub_authorization!
 
   describe 'GET #index' do
-    it 'redirects to the edit page' do
+    let(:feed) { create(:product_feed, name: 'test') }
+
+    it 'loads the product feeds' do
       get :index
 
-      expect(response).to redirect_to(new_admin_product_feed_path)
+      expect(assigns(:product_feeds)).to include(feed)
     end
   end
 
