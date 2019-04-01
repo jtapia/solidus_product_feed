@@ -31,7 +31,9 @@ Spree::ProductsController.class_eval do
   end
 
   def product_feed
-    @product_feed ||= Spree::ProductFeed.default
+    @product_feed = Spree::ProductFeed.
+      where('lower(name) = lower(?)', params[:feed]).first ||
+      Spree::ProductFeed.default
   end
 
   def csv
